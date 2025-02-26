@@ -1,0 +1,35 @@
+{
+  "name": "dagify-hyper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "brittle tests/**/*.test.js"
+  },
+  "keywords": [
+    "dagify",
+    "hypercore",
+    "autobase",
+    "p2p",
+    "peer-to-peer",
+    "reactive",
+    "reactivity",
+    "nodes",
+    "distributed",
+    "hyper"
+  ],
+  "author": "Zachary Griffee",
+  "license": "MIT",
+  "description": "A collection of Dagify nodes for peer-to-peer hyper ecosystem tools.",
+  "devDependencies": {
+    "autobase": "^6.5.13",
+    "brittle": "^3.10.1",
+    "corestore": "^6.18.4",
+    "hypercore": "^10.38.2",
+    "random-access-memory": "^6.2.1"
+  },
+  "dependencies": {
+    "dagify": "^1.6.11",
+    "rxjs": "^7.8.2"
+  }
+}
