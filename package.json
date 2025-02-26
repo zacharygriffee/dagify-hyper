@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "brittle tests/**/*.test.js"
+    "test": "brittle tests/**/*.test.js",
+    "bare:test": "bare tests/hypercore.test.js && bare tests/autobase.test.js"
   },
   "keywords": [
     "dagify",
@@ -29,6 +30,7 @@
     "random-access-memory": "^6.2.1"
   },
   "dependencies": {
+    "bare": "^1.15.1",
     "dagify": "^1.6.11",
     "rxjs": "^7.8.2"
   }
