@@ -1,6 +1,6 @@
 {
   "name": "dagify-hyper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "bare": "^1.15.1",
-    "dagify": "^1.6.11",
+    "dagify": "^1.6.12",
     "rxjs": "^7.8.2"
   }
 }
