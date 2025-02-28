@@ -1,6 +1,6 @@
 {
   "name": "dagify-hyper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -26,12 +26,15 @@
     "autobase": "^6.5.13",
     "brittle": "^3.10.1",
     "corestore": "^6.18.4",
+    "duplex-through": "^1.0.2",
     "hypercore": "^10.38.2",
+    "hyperdht": "^6.20.1",
     "random-access-memory": "^6.2.1"
   },
   "dependencies": {
-    "bare": "^1.15.1",
-    "dagify": "^1.6.12",
-    "rxjs": "^7.8.2"
+    "b4a": "^1.6.7",
+    "dagify": "^1.6.16",
+    "rxjs": "^7.8.2",
+    "z32": "^1.1.0"
   }
 }
