@@ -22,6 +22,6 @@ test("basic", async t => {
 
     await base.append("hello");
     await base.close();
-    await sleep(0);
+    await sleep(10);
     t.is(viewLatestNode.value, "hello poke");
 })

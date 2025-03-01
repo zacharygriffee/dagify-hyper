@@ -16,7 +16,7 @@ test("Hypercore latest", async t => {
     const hypercore = new Hypercore(RAM, {valueEncoding: "utf8"});
 
     // Create a reactive node that tracks the latest value from the hypercore.
-    const coreNode = hypercoreLatestNode(hypercore);
+    const coreNode = hypercoreLatestNode({hypercore});
 
     // Append "hello" to the hypercore and allow a tick for propagation.
     await hypercore.append("hello");
@@ -49,7 +49,7 @@ test("Hypercore latest with offset", async t => {
     // Create a reactive node that tracks the latest value from the hypercore,
     // but with an offset of -2. This means the node will only emit a value
     // when there are at least 2 entries in the core, and it will return the (length - 2)th entry.
-    const coreNode = hypercoreLatestNode(hypercore, {offset: -2});
+    const coreNode = hypercoreLatestNode({hypercore, offset: -2});
 
     // Append "hello" to the hypercore. Since the core length is now 1,
     // the offset (-2) cannot be satisfied, so we expect NO_EMIT.
@@ -73,10 +73,42 @@ test("Hypercore latest with offset", async t => {
     t.is(hypercore.listenerCount("append"), 0, "Hypercore should have zero 'append' listeners after cleanup");
 });
 
+test("Hypercore latest where hypercore is set late", async t => {
+    // Initialize a hypercore instance in RAM with utf8 encoding.
+    const hypercore = new Hypercore(RAM, {valueEncoding: "utf8"});
+
+    // Create a reactive node that tracks the latest value from the hypercore,
+    // but with an offset of -2. This means the node will only emit a value
+    // when there are at least 2 entries in the core, and it will return the (length - 2)th entry.
+    const config = createNode({});
+    const coreNode = hypercoreLatestNode(config);
+
+    await sleep(0);
+    t.ok(coreNode.value === NO_EMIT, "Without a core set yet, we should have no emit.");
+
+    // Append "hello" to the hypercore. Since the core length is now 1,
+    // the offset (-2) cannot be satisfied, so we expect NO_EMIT.
+    await hypercore.append("hello");
+    await sleep(100);
+    config.update(config => ({...config, hypercore})); // Set hypercore now.
+    await sleep(10);
+    t.ok(coreNode.value, "hello", "With core length 1, offset -2 yields NO_EMIT");
+
+    // Complete the reactive node to trigger cleanup.
+    coreNode.complete();
+    await sleep();
+    // Ensure that no lingering 'append' event listeners remain on the hypercore.
+    t.is(hypercore.listenerCount("append"), 0, "Hypercore should have zero 'append' listeners after cleanup");
+
+    // Close the hypercore to release resources.
+    await hypercore.close();
+
+});
+
 test("Hypercore head node", async t => {
     const hypercore = new Hypercore(RAM, {valueEncoding: "utf8"});
     await hypercore.append("hello");
-    const head = hypercoreHeadNode(hypercore);
+    const head = hypercoreHeadNode({hypercore});
     await sleep();
     t.is(head.value, "hello", "head node should be 'hello'");
 });
@@ -87,7 +119,7 @@ test("Hypercore range", async t => {
 
 // Create a range node starting at index 2 (i.e. "you") through the end of the hypercore.
     const rangeConfig = createNode({start: 2, end: hypercore.length});
-    const range = hypercoreRangeNode(hypercore, rangeConfig);
+    const range = hypercoreRangeNode({hypercore, range: rangeConfig});
 
     await sleep(10);
 // Expect the range node to contain: ["you", "are", "a", "rockstar"]
@@ -108,7 +140,7 @@ test("Create hypercore live node and hotswapping", async t => {
     const coreNode = createShallowNode(hypercore);
     const values = [];
     let completeCalled = false;
-    const liveNode = hypercoreLiveNode(coreNode);
+    const liveNode = hypercoreLiveNode({hypercore: coreNode});
     liveNode.subscribe({
         next: value => {
             values.push(value);
@@ -158,7 +190,7 @@ test("Create hypercore from corestore", async t => {
             completeCalled = true;
         }
     });
-    const latest = hypercoreLatestNode(coreNode);
+    const latest = hypercoreLatestNode({hypercore: coreNode});
     await sleep(10);
     t.is(latest.value, "world", "latest node should be 'world'");
     coreNode.complete();
@@ -203,7 +235,7 @@ test("Create hypercore from corestore with hotswap", async t => {
     });
 
     // Create a node that provides access to the latest core value.
-    const latest = hypercoreLatestNode(coreNode);
+    const latest = hypercoreLatestNode({hypercore: coreNode});
 
     // Wait a bit for the first core to initialize and the message to be appended.
     await sleep(10);

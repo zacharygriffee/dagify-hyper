@@ -24,6 +24,7 @@ This repository is under active development, with a focus on enabling a broader 
 - Expanded integrations for hypercore, Autobase, and related distributed data systems.
 - Enhanced lifecycle management and resource cleanup strategies.
 - More comprehensive tooling to enable dynamic, reactive workflows in decentralized applications.
+- **Please note, breaking changes can occur between the version 1.0.0 - 1.1.0**
 
 For a detailed API reference and usage examples, please refer to the [docs section](docs).
 
