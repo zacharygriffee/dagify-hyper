@@ -1,6 +1,6 @@
 {
   "name": "dagify-hyper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -22,6 +22,10 @@
   "author": "Zachary Griffee",
   "license": "MIT",
   "description": "A collection of Dagify nodes for peer-to-peer hyper ecosystem tools.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacharygriffee/dagify-hyper.git"
+  },
   "devDependencies": {
     "autobase": "^6.5.13",
     "brittle": "^3.10.1",
@@ -33,7 +37,7 @@
   },
   "dependencies": {
     "b4a": "^1.6.7",
-    "dagify": "^1.6.22",
+    "dagify": "^1.6.24",
     "rxjs": "^7.8.2",
     "z32": "^1.1.0"
   }
